@@ -17,6 +17,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
@@ -38,13 +39,21 @@ public class ScoreWS {
      * Retorna o status da conexão
      * @return Status 
      */
-    @GET
-    @Produces(MediaType.TEXT_HTML)
-    public String statusConexao() {
-
-        return ConexaoMySQL.getStatus();
+//    @GET
+//    @Produces(MediaType.TEXT_HTML)
+//    public String statusConexao() {
+//
+//        return ConexaoMySQL.getStatus();
+//    }
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public void setScore(String content){
+        Gson gson = new Gson();
+        Score s = gson.fromJson(content, Score.class);
+        ScoreDAO dao = new ScoreDAO();
+        dao.setScore(s);
     }
-    
     
     
     @GET
@@ -62,4 +71,6 @@ public class ScoreWS {
         
         return gson.toJson(score);
     }
+    
+    
 }

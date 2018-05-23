@@ -35,14 +35,37 @@ public class ScoreDAO {
                 score.setAlunoId(res.getInt("alunoId"));
                 score.setPontuacao(res.getInt("pontuacao"));
                 score.setCategoriaId(res.getInt("categoriaId"));
-                
+
                 ret.add(score);
             }
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             System.out.println("catch Score dao\n" + ex.toString());
         }
 
         return ret;
     }
 
+    public Boolean setScore(Score s) {
+        ConexaoMySQL c = new ConexaoMySQL();
+        Boolean ret = false;
+        String sql = "INSERT INTO score (jogoId,alunoId,pontuacao,categoriaId) VALUES (?,?,?,?);";
+        PreparedStatement pst = c.getPreparedStatement(sql);
+        try {
+            pst.setInt(1, s.getJogoId());
+            pst.setInt(2, s.getAlunoId());
+            pst.setInt(3, s.getPontuacao());
+            pst.setInt(4, s.getCategoriaId());
+
+            if (pst.executeUpdate() > 0) {
+                ret = true;
+                System.out.println("***Inserido***");
+            } else {
+                System.out.println("***else***");
+            }
+        } catch (SQLException ex) {
+            System.out.println("catch ScoreDAO\n" + ex.toString());
+            ret = false;
+        }
+        return ret;
+    }
 }
