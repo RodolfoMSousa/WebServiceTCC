@@ -51,7 +51,7 @@ public class UsuarioDAO {
     *Select com todos os usuarios
     *@return List<Usuario>
      */
-    public List<Usuario> select() throws SQLException, InstantiationException, IllegalAccessException {
+    public List<Usuario> select() {
         ConexaoMySQL c = new ConexaoMySQL();
         String sql = "SELECT * FROM usuario";
         List<Usuario> ret = new ArrayList<>();

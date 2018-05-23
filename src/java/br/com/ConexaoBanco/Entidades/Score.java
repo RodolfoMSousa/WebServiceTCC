@@ -10,16 +10,17 @@ package br.com.ConexaoBanco.Entidades;
  * @author Rodolfo
  */
 public class Score {
-    private int scoreId, jogoId,alunoId, pontuacao, datacadastro;
+    private int scoreId, jogoId,alunoId, pontuacao, datacadastro,categoriaId;
     
     public Score(){
         
     }
     
-    public Score(int jogoId, int alunoId, int pontuacao){
+    public Score(int jogoId, int alunoId, int pontuacao, int categoriaId){
         setJogoId(jogoId);
         setAlunoId(alunoId);
         setPontuacao(pontuacao);
+        setCategoriaId(categoriaId);
     }
 
     /**
@@ -90,5 +91,19 @@ public class Score {
      */
     public void setDatacadastro(int datacadastro) {
         this.datacadastro = datacadastro;
+    }
+
+    /**
+     * @return the categoriaId
+     */
+    public int getCategoriaId() {
+        return categoriaId;
+    }
+
+    /**
+     * @param categoriaId the categoriaId to set
+     */
+    public void setCategoriaId(int categoriaId) {
+        this.categoriaId = categoriaId;
     }
 }
