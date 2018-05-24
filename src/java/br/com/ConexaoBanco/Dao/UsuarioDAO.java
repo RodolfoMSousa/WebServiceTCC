@@ -107,5 +107,33 @@ public class UsuarioDAO {
         
         return ret;
     }
+    
+    public Usuario selectLast() {
+        Usuario ret = null;
+        ConexaoMySQL con = new ConexaoMySQL();
+        String sql = "SELECT * FROM usuario ORDER BY usuarioId DESC LIMIT 1";
+
+        PreparedStatement pst = con.getPreparedStatement(sql);
+        try {
+            ResultSet res = pst.executeQuery();
+
+            if (res.next()) {
+                ret = new Usuario();
+                ret.setUsuarioId(res.getInt("usuarioId"));
+                ret.setNome(res.getString("nome"));
+                ret.setSobrenome(res.getString("sobrenome"));
+                ret.setCpf(res.getInt("cpf"));
+                ret.setDataNascimento(res.getInt("dataNascimento"));
+                ret.setAtivo(res.getInt("ativo"));
+                ret.setDataCadastro(res.getInt("dataCadastro"));
+            }else{
+                System.out.println("**Usuario não localizado** ");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger("erro ao buscar");
+        }
+        
+        return ret;
+    }
 
 }

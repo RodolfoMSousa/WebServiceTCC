@@ -17,7 +17,8 @@ public class Usuario {
     public Usuario(){
         
 }
-    public Usuario(int usuarioId, String nome,String sobrenome, int cpf,int dataNascimento, int ativo, int dataCadastro){
+    public Usuario(int usuarioId, String nome,String sobrenome, int cpf,
+            int dataNascimento, int ativo, int dataCadastro){
         setUsuarioId(usuarioId);
         setNome(nome);
         setSobrenome(sobrenome);

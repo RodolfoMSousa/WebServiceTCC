@@ -9,8 +9,8 @@ package br.com.ConexaoBanco.Entidades;
  *
  * @author Rodolfo
  */
-public class Aluno extends Professor{
-    private int alunoid, scoreTotal, turmaId;
+public class Aluno extends Usuario{
+    private int alunoid, usuarioId, professorId, scoreTotal, turmaId;
     
     public Aluno(){
         
@@ -18,10 +18,16 @@ public class Aluno extends Professor{
     public Aluno(int usuarioId, String nome,String sobrenome, int cpf,
             int dataNascimento, int ativo, int dataCadastro, int professorId, 
             int turmaId, int alunoid, int scoreTotal){
-        super(usuarioId, nome, sobrenome, cpf, dataNascimento, ativo, dataCadastro, professorId, turmaId);
+        super(usuarioId, nome, sobrenome, cpf, dataNascimento, ativo, 
+                dataCadastro);
         this.alunoid = alunoid;
         this.scoreTotal = scoreTotal;
         this.turmaId = turmaId;
+    }
+    
+    public Aluno (Usuario u ){
+        super(u.usuarioId, u.nome, u.sobrenome, u.cpf, u.dataNascimento, u.ativo, 
+                u.dataCadastro);
     }
 
     /**
@@ -64,5 +70,33 @@ public class Aluno extends Professor{
      */
     public void setTurmaId(int turmaId) {
         this.turmaId = turmaId;
+    }
+
+    /**
+     * @return the usuarioId
+     */
+    public int getUsuarioId() {
+        return usuarioId;
+    }
+
+    /**
+     * @param usuarioId the usuarioId to set
+     */
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    /**
+     * @return the professorId
+     */
+    public int getProfessorId() {
+        return professorId;
+    }
+
+    /**
+     * @param professorId the professorId to set
+     */
+    public void setProfessorId(int professorId) {
+        this.professorId = professorId;
     }
 }
