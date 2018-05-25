@@ -5,17 +5,16 @@
  */
 package br.com.ConexaoBanco.Requisicoes;
 
-import br.com.ConexaoBanco.Dao.ScoreDAO;
-import br.com.ConexaoBanco.Entidades.Score;
+import br.com.ConexaoBanco.ConexaoMySQL;
+import br.com.ConexaoBanco.Dao.LoginDAO;
+import br.com.ConexaoBanco.Entidades.Login;
 import com.google.gson.Gson;
-import java.util.ArrayList;
-import java.util.List;
-import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -24,49 +23,55 @@ import javax.ws.rs.core.Response;
  * @author Rodolfo
  */
 
-@Path("scorews/")
-public class ScoreWS {
+@Path("login/")
+public class LoginWS {
     
-    public ScoreWS(){
+    public LoginWS(){
         
     }
     
-    /**
-     * Retorna o status da conexão
-     * @return Status 
-     */
 //    @GET
 //    @Produces(MediaType.TEXT_HTML)
 //    public String statusConexao() {
 //
 //        return ConexaoMySQL.getStatus();
 //    }
+    
+    
+/*
+    * POST para cadastrar novo login lembrar de passar o usuarioId no Json
+    * 
+    */
+    
     @POST
+ //   @Path("setLogin/")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public void setScore(String content){
+    public void login(String content){
         Gson gson = new Gson();
-        Score s = gson.fromJson(content, Score.class);
-        ScoreDAO dao = new ScoreDAO();
-        dao.setScore(s);
+        Login login = gson.fromJson(content, Login.class);
+      //Assumindo que o UsuarioId já foi enviado no Json
+        LoginDAO dao = new LoginDAO();
+        dao.setLogin(login);
+        
     }
     
-    
     @GET
-    @Path("/{alunoId}/{categoriaId}")
+ //   @Path("getLogin/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getScoreStatus(@PathParam("alunoId") int alunoId, 
-            @PathParam("categoriaId") int categoriaId) {
-        List<Score> score = new ArrayList<Score>();
-        Score s = new Score();
+    public Response autenticar(@QueryParam("usuarioId") int usuarioId,
+            @QueryParam("userName") String userName,
+            @QueryParam("senha") String senha){
+        Login login = new Login();
+        login.setUsuarioId(usuarioId);
+        login.setUserName(userName);
+        login.setSenha(senha);
+        LoginDAO dao = new LoginDAO();
+        boolean status = dao.getLogin(login);
         Gson gson = new Gson();
-        ScoreDAO dao = new ScoreDAO();
-        s.setAlunoId(alunoId);
-        s.setCategoriaId(categoriaId);
-        score = dao.getScore(s);
         
         return Response
-                .ok(gson.toJson(score))
+                .ok(gson.toJson(status))
                 .header("Access-Control-Allow-Origin", "*")
                 .header("Access-Control-Allow-Credentials", "true")
                 .header("Access-Control-Allow-Headers",
@@ -75,6 +80,5 @@ public class ScoreWS {
                         "GET, POST, PUT, DELETE, OPTIONS, HEAD")
                 .build();
     }
-    
     
 }

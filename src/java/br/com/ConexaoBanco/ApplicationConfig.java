@@ -30,6 +30,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(br.com.ConexaoBanco.Requisicoes.CategoriaSugeridaWS.class);
+        resources.add(br.com.ConexaoBanco.Requisicoes.LoginWS.class);
         resources.add(br.com.ConexaoBanco.Requisicoes.ScoreWS.class);
         resources.add(br.com.ConexaoBanco.Requisicoes.UsuarioWS.class);
     }

@@ -17,11 +17,11 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-//import static javax.ws.rs.HttpMethod.POST;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  * REST Web Service Retorna o Usuário
@@ -59,15 +59,26 @@ public class UsuarioWS {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}/")
-    public String getUser(@PathParam("id") int usuarioId) throws SQLException, InstantiationException, IllegalAccessException {
+    public Response getUser(@PathParam("id") int usuarioId) throws SQLException, InstantiationException, IllegalAccessException {
         Usuario u = new Usuario();
         UsuarioDAO p = new UsuarioDAO();
         u.setUsuarioId(usuarioId);
         u = p.select(u);
         Gson gson = new Gson();
-        return gson.toJson(u);
+        return Response
+                .ok(gson.toJson(u))
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Credentials", "true")
+                .header("Access-Control-Allow-Headers",
+                        "origin, content-type, accept, authorization")
+                .header("Access-Control-Allow-Methods",
+                        "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+                .build();
     }
-
+    
+    
+    
+    
     /**
      * POST para inserir usuario
      *Exemplo Json{"nome":"Maria","sobrenome":"Carvalho","cpf":555555,
@@ -89,7 +100,9 @@ public class UsuarioWS {
             AlunoDAO aDAO = new AlunoDAO();
             u = d.selectLast();
             aDAO.insert(u.getUsuarioId());
+            r = false;
         }
+        
 
     }
 }

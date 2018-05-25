@@ -16,6 +16,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -35,7 +36,7 @@ public class CategoriaSugeridaWS {
     @GET
     @Path("{alunoId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getSugetao(@PathParam("alunoId") int alunoId) {
+    public Response getSugetao(@PathParam("alunoId") int alunoId) {
         Gson gson = new Gson();
         Aluno a = new Aluno();
         a.setAlunoid(alunoId);
@@ -43,7 +44,15 @@ public class CategoriaSugeridaWS {
         CategoriaSugerida cat = new CategoriaSugerida();
         cat = dao.getSugestao(a);
         
-        return gson.toJson(cat);
+        return Response
+                .ok(gson.toJson(cat))
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Credentials", "true")
+                .header("Access-Control-Allow-Headers",
+                        "origin, content-type, accept, authorization")
+                .header("Access-Control-Allow-Methods",
+                        "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+                .build();
     }
     
     
