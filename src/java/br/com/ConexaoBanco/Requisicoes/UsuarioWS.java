@@ -16,6 +16,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -62,7 +63,7 @@ public class UsuarioWS {
     public Response getUser(@PathParam("id") int usuarioId) throws SQLException, InstantiationException, IllegalAccessException {
         Usuario u = new Usuario();
         UsuarioDAO p = new UsuarioDAO();
-        u.setUsuarioId(usuarioId);
+        u.setUserId(usuarioId);
         u = p.select(u);
         Gson gson = new Gson();
         return Response
@@ -83,26 +84,39 @@ public class UsuarioWS {
      * POST para inserir usuario
      *Exemplo Json{"nome":"Maria","sobrenome":"Carvalho","cpf":555555,
       "dataNascimento":20100210,"ativo":1}
+      * @return Exemplo de json do tipo aluno que sera retornado
+      * {"alunoid":9,"usuarioId":13,"professorId":0,"scoreTotal":0,"turmaId":0
+      * ,"userId":13,"cpf":0,"dataNascimento":0,"ativo":0,"dataCadastro":2018}
      */
     @POST
     @Path("/setAluno/")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public void putJson(String content) throws InstantiationException, IllegalAccessException {
-        //Usuario u = new Usuario(3, "Marcos", "Benevides", 111111, 222, 333, 444);
+    public Response putJson( String content) throws InstantiationException, IllegalAccessException {
+        System.out.println("1");
         boolean r = false;
         Gson gson = new Gson();
         Usuario u = gson.fromJson(content, Usuario.class);
         UsuarioDAO d = new UsuarioDAO();
         r = d.insert(u);
+        Aluno a = new Aluno();
         if(r){
-            Aluno a = new Aluno();
+            
             AlunoDAO aDAO = new AlunoDAO();
             u = d.selectLast();
-            aDAO.insert(u.getUsuarioId());
+            a = aDAO.insert(u.getUserId());
             r = false;
         }
-        
+        System.out.println("final");
+        return Response
+                .ok(gson.toJson(a))
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Credentials", "true")
+                .header("Access-Control-Allow-Headers",
+                        "origin, content-type, accept, authorization")
+                .header("Access-Control-Allow-Methods",
+                        "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+                .build();
 
     }
 }

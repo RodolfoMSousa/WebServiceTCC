@@ -40,38 +40,41 @@ public class LoginWS {
     
 /*
     * POST para cadastrar novo login lembrar de passar o usuarioId no Json
-    * 
+    * {"usuarioId":2, "userName":"teste", "senha":"123"}
     */
     
     @POST
- //   @Path("setLogin/")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public void login(String content){
+    public Response login(String content){
         Gson gson = new Gson();
         Login login = gson.fromJson(content, Login.class);
       //Assumindo que o UsuarioId já foi enviado no Json
         LoginDAO dao = new LoginDAO();
-        dao.setLogin(login);
-        
+        login = dao.setLogin(login);
+        return Response
+                .ok(gson.toJson(login))
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Credentials", "true")
+                .header("Access-Control-Allow-Headers",
+                        "origin, content-type, accept, authorization")
+                .header("Access-Control-Allow-Methods",
+                        "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+                .build();
     }
     
     @GET
- //   @Path("getLogin/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response autenticar(@QueryParam("usuarioId") int usuarioId,
+    public Response autenticar(
             @QueryParam("userName") String userName,
-            @QueryParam("senha") String senha){
+            @QueryParam("password") String password){
         Login login = new Login();
-        login.setUsuarioId(usuarioId);
         login.setUserName(userName);
-        login.setSenha(senha);
+        login.setSenha(password);
         LoginDAO dao = new LoginDAO();
-        boolean status = dao.getLogin(login);
         Gson gson = new Gson();
-        
         return Response
-                .ok(gson.toJson(status))
+                .ok(gson.toJson(dao.getLogin(login)))
                 .header("Access-Control-Allow-Origin", "*")
                 .header("Access-Control-Allow-Credentials", "true")
                 .header("Access-Control-Allow-Headers",

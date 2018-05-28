@@ -46,9 +46,10 @@ public class AlunoDAO {
         return ret;
     }
     
-    public boolean insert(int usuarioId) {
+    public Aluno insert(int usuarioId) {
         ConexaoMySQL c = new ConexaoMySQL();
         Boolean ret = false;
+        Aluno a = null;
         String sql = "INSERT INTO aluno (usuarioId) VALUES (?)";
         PreparedStatement pst = c.getPreparedStatement(sql);
         try {
@@ -57,6 +58,7 @@ public class AlunoDAO {
             if (pst.executeUpdate() > 0) {
                 ret = true;
                 System.out.println("***Inserido***"); 
+                a = selectLast();
            } else{
                 System.out.println("entrou");
             }
@@ -64,6 +66,35 @@ public class AlunoDAO {
             System.out.println("catch alunoDAO\n" + ex.toString());
             ret = false;
         }
+        return a;
+    }
+    
+    public Aluno selectLast() {
+        Aluno ret = null;
+        ConexaoMySQL con = new ConexaoMySQL();
+        String sql = "SELECT * FROM aluno ORDER BY usuarioId DESC LIMIT 1";
+
+        PreparedStatement pst = con.getPreparedStatement(sql);
+        try {
+            ResultSet res = pst.executeQuery();
+
+            if (res.next()) {
+                ret = new Aluno();
+                ret.setUsuarioId(res.getInt("usuarioId"));
+                ret.setUserId(res.getInt("usuarioId"));
+                ret.setAlunoid(res.getInt("alunoid"));
+                ret.setScoreTotal(res.getInt("scoreTotal"));
+                ret.setAtivo(res.getInt("ativo"));
+                ret.setDataCadastro(res.getInt("dataCadastro"));
+                ret.setTurmaId(res.getInt("turmaId"));
+                ret.setProfessorId(res.getInt("professorId"));
+            }else{
+                System.out.println("**Usuario não localizado** id = ");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger("erro ao buscar");
+        }
+        
         return ret;
     }
 }

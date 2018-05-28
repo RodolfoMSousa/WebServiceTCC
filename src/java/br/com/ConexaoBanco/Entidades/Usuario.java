@@ -10,7 +10,7 @@ package br.com.ConexaoBanco.Entidades;
  * @author Rodolfo
  */
 public class Usuario {
-    protected int usuarioId;
+    protected int userId;
     protected String nome, sobrenome;
     protected int cpf, dataNascimento, ativo,dataCadastro;
     
@@ -19,7 +19,7 @@ public class Usuario {
 }
     public Usuario(int usuarioId, String nome,String sobrenome, int cpf,
             int dataNascimento, int ativo, int dataCadastro){
-        setUsuarioId(usuarioId);
+        setUserId(usuarioId);
         setNome(nome);
         setSobrenome(sobrenome);
         setCpf(cpf);
@@ -114,15 +114,15 @@ public class Usuario {
     /**
      * @return the usuarioId
      */
-    public int getUsuarioId() {
-        return usuarioId;
+    public int getUserId() {
+        return userId;
     }
 
     /**
      * @param usuarioId the usuarioId to set
      */
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUserId(int usuarioId) {
+        this.userId = usuarioId;
     }
     
     

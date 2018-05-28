@@ -86,12 +86,12 @@ public class UsuarioDAO {
 
         PreparedStatement pst = con.getPreparedStatement(sql);
         try {
-            pst.setInt(1, user.getUsuarioId());
+            pst.setInt(1, user.getUserId());
             ResultSet res = pst.executeQuery();
 
             if (res.next()) {
                 ret = new Usuario();
-                ret.setUsuarioId(res.getInt("usuarioId"));
+                ret.setUserId(res.getInt("usuarioId"));
                 ret.setNome(res.getString("nome"));
                 ret.setSobrenome(res.getString("sobrenome"));
                 ret.setCpf(res.getInt("cpf"));
@@ -99,7 +99,7 @@ public class UsuarioDAO {
                 ret.setAtivo(res.getInt("ativo"));
                 ret.setDataCadastro(res.getInt("dataCadastro"));
             }else{
-                System.out.println("**Usuario não localizado** id = "+user.getUsuarioId());
+                System.out.println("**Usuario não localizado** id = "+user.getUserId());
             }
         } catch (SQLException ex) {
             Logger.getLogger("erro ao buscar");
@@ -119,7 +119,7 @@ public class UsuarioDAO {
 
             if (res.next()) {
                 ret = new Usuario();
-                ret.setUsuarioId(res.getInt("usuarioId"));
+                ret.setUserId(res.getInt("usuarioId"));
                 ret.setNome(res.getString("nome"));
                 ret.setSobrenome(res.getString("sobrenome"));
                 ret.setCpf(res.getInt("cpf"));

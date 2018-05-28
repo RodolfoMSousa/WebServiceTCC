@@ -26,7 +26,7 @@ public class Aluno extends Usuario{
     }
     
     public Aluno (Usuario u ){
-        super(u.usuarioId, u.nome, u.sobrenome, u.cpf, u.dataNascimento, u.ativo, 
+        super(u.userId, u.nome, u.sobrenome, u.cpf, u.dataNascimento, u.ativo, 
                 u.dataCadastro);
     }
 
