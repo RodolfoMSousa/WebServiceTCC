@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -65,6 +66,36 @@ public class ScoreDAO {
         } catch (SQLException ex) {
             System.out.println("catch ScoreDAO\n" + ex.toString());
             ret = false;
+        }
+        return ret;
+    }
+
+    public List<Score> setScoreList(List<Score> s) {
+        ConexaoMySQL c = new ConexaoMySQL();
+        List<Score> ret = new ArrayList<>(); 
+        Iterator<Score> iterator = s.iterator();
+        int aux = 0;
+        while (iterator.hasNext()) {
+            String sql = "INSERT INTO score (jogoId,alunoId,pontuacao,categoriaId) VALUES (?,?,?,?);";
+            PreparedStatement pst = c.getPreparedStatement(sql);
+            try {
+                pst.setInt(1, s.get(aux).getJogoId());
+                pst.setInt(2, s.get(aux).getAlunoId());
+                pst.setInt(3, s.get(aux).getPontuacao());
+                pst.setInt(4, s.get(aux).getCategoriaId());
+
+                if (pst.executeUpdate() > 0) {
+                    ret.add(s.get(aux));
+                    aux++;
+                    iterator.next();
+                    System.out.println("***Inserido***");
+                    
+                } else {
+                    System.out.println("***else***");
+                }
+            } catch (SQLException ex) {
+                System.out.println("catch ScoreDAO\n" + ex.toString());
+            }
         }
         return ret;
     }
